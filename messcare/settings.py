@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-7oms3bjdhe*!)6dk*5mdln85ul9g!uzz_z2$m&djwqdxmqw28*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['messcare-hostel-food-quality.onrender.com']
 
 
 # Application definition
