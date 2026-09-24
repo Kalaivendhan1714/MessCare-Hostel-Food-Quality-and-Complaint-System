@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -72,18 +74,28 @@ WSGI_APPLICATION = 'messcare.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/6.1/ref/settings/#databases
+# Local → MySQL
+# Render → PostgreSQL
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'messcare',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': 'kalai1714',
-        'PORT': '3306',
+if os.environ.get("DATABASE_URL"):
+    DATABASES = {
+        "default": dj_database_url.parse(
+            os.environ["DATABASE_URL"],
+            conn_max_age=600,
+            ssl_require=True,
+        )
     }
- }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "messcare",
+            "HOST": "localhost",
+            "USER": "root",
+            "PASSWORD": "kalai1714",
+            "PORT": "3306",
+        }
+    }
 
 
 # Password validation
@@ -133,3 +145,4 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
