@@ -1,0 +1,341 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>MessCare - Food Safety</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{% static 'users/style.css' %}">
+
+    <style>
+
+        :root {
+            --mc-green: #1b7a4c;
+            --mc-green-dark: #145c39;
+            --mc-red: #dc2626;
+            --mc-red-dark: #b91c1c;
+            --mc-red-light: #fef2f2;
+        }
+
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f7f5;
+        }
+
+        .messcare-navbar {
+            background: linear-gradient(90deg, var(--mc-green) 0%, var(--mc-green-dark) 100%);
+        }
+
+        .form-card {
+            border: none;
+            border-radius: 18px;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-icon {
+            width: 66px;
+            height: 66px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--mc-red-light);
+            border-radius: 16px;
+            font-size: 32px;
+        }
+
+        h2.fw-bold {
+            color: #111827;
+        }
+
+        .form-label {
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #dcdfe6;
+            border-radius: 9px;
+            padding: 11px 13px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--mc-red);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.10);
+        }
+
+        .btn-mc-danger {
+            background: var(--mc-red);
+            border: none;
+            color: white;
+            border-radius: 9px;
+            font-weight: 600;
+        }
+
+        .btn-mc-danger:hover {
+            background: var(--mc-red-dark);
+            color: white;
+        }
+
+        .alert-warning {
+            border-radius: 10px;
+            border: none;
+            background: #fff7ed;
+            color: #9a3412;
+        }
+
+        .back-link {
+            color: var(--mc-green);
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            color: var(--mc-green-dark);
+        }
+        .back-bar {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 10px 20px;
+}
+
+.btn-back-link {
+    color: var(--mc-green);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn-back-link:hover {
+    color: var(--mc-green-dark);
+}
+
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark messcare-navbar px-3">
+
+    <a href="{% url 'studentpage' user.id %}"
+       class="navbar-brand fw-bold">
+        🍽️ MessCare
+    </a>
+
+    <a href="{% url 'logout' %}"
+       class="btn btn-outline-light btn-sm">
+        Logout
+    </a>
+
+</nav>
+<!-- BACK BAR (right below navbar) -->
+
+<div class="back-bar">
+    <div class="container-fluid text-end">
+        <a href="{% url 'studentpage' user.id %}" class="btn-back-link">
+            ← Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8 col-lg-7">
+
+            <div class="card form-card">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="form-icon">
+                            🚨
+                        </div>
+
+                        <h2 class="fw-bold mt-3">
+                            Food Safety Report
+                        </h2>
+
+                        <p class="text-muted">
+                            Report serious hygiene or food safety issues
+                        </p>
+
+                    </div>
+
+                    {% if messages %}
+    {% for message in messages %}
+
+        <div class="alert alert-success alert-dismissible fade show"
+             role="alert">
+
+            ✅ {{ message }}
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+
+    {% endfor %}
+{% endif %}
+
+                    <form method="POST"
+                          enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Student Name
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       value="{{ user.name }}"
+                                       readonly>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Room Number
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       value="{{ user.room_no }}"
+                                       readonly>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Food Type
+                            </label>
+
+                            <select name="food_type"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    Select food type
+                                </option>
+
+                                <option value="Breakfast">
+                                    🌅 Breakfast
+                                </option>
+
+                                <option value="Lunch">
+                                    ☀️ Lunch
+                                </option>
+
+                                <option value="Dinner">
+                                    🌙 Dinner
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Issue Type
+                            </label>
+
+                            <input list="issue-types"
+                                   name="issue_type"
+                                   class="form-control"
+                                   placeholder="Select or type issue"
+                                   required>
+
+                            <datalist id="issue-types">
+
+                                <option value="Insect found">
+                                <option value="Spoiled food">
+                                <option value="Hygiene issue">
+                                <option value="Suspected contamination">
+
+                            </datalist>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Description
+                            </label>
+
+                            <textarea name="description"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="Explain the food safety issue..."
+                                      required></textarea>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Upload Photo
+                            </label>
+
+                            <input type="file"
+                                   name="photo"
+                                   class="form-control"
+                                   accept="image/*">
+
+                            <div class="form-text">
+                                📷 Upload a photo as evidence (optional)
+                            </div>
+
+                        </div>
+
+                        <div class="alert alert-warning">
+                            ⚠️ Please report only genuine food safety
+                            and hygiene issues.
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-mc-danger w-100 py-2">
+                            🚨 Submit Safety Report
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
